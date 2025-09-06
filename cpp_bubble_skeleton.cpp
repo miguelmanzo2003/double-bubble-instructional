@@ -2,8 +2,8 @@
 // template C++ code for doing bubblesort, W. Bethel, SFSU, 2/2023
 //
 // Miguel Manzo
-// Your course number, 
-// date here
+// CSC656, Coding Project #1
+// September 10, 2025
 // 1-sentence description here: Use bubble sort to sort an array of 10 integers using a subroutine function
 //
 
