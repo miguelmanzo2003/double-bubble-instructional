@@ -28,7 +28,7 @@ int bubble_sort_inner(int A[], int N){
            A[j] = A[j+1];
            A[j+1]= temp;
            changed = 1;
-           print_array(A, N);
+           //print_array(A, N);
          }
         
    }
@@ -43,7 +43,7 @@ int main (int ac, char *av[])
    int n = sizeof(a)/sizeof(int);
    
 
-   std::cout << " a before sort "<< std::endl;
+   std::cout << " a before sort: ";
 
    // print out the contents of a before the sort
    // insert your code here
@@ -61,7 +61,7 @@ int main (int ac, char *av[])
       print_array(a, n);
 
       if(changed == 0){
-         std::cout << "no changes were made\n\n";
+         std::cout << "no changes were made (early termination)\n";
          break;
       }
 
@@ -70,6 +70,7 @@ int main (int ac, char *av[])
 
    // print out the contents of a after the sort
    // insert your code here
+   std::cout << "a after sort: ";
    print_array(a, n);
    return 0;
 }
