@@ -82,10 +82,11 @@ bubble_sort_inner:
 	move $t8, $a0  #move base of array into $t6
 	move $t7, $a1  #move n into $t7
 	li $t0, 0 #i = 0 
-	#li $t5, 0 #changed variable, changed = 0 
+	li $t5, 0 #changed variable, changed = 0 this is the return value fo the inner function 
 	
 	addi $sp, $sp, -4  #store the return address to get back to the outer loop in bubble sort
 	sw $ra, 0($sp)     #we have to store the $ra because we make a jal to print array and then $ra would get overwritten
+	
 	
 	li $v0, 4   # opcode to print a string to the console
 	la $a0, entered_b_inner #ascii value for newline is 10
@@ -100,22 +101,42 @@ bubble_sort_inner:
 	syscall
 	
 	bubble_sort_inner_loop:
+	
+		
 		
 		#set less than, set register = 1 if i < n
 		slt $t4, $t0, $t7
 		
 		#check if register = 0, if so branch to end of loop
 		beq $t4, $zero, end_bubble_sort_inner_loop
+		
 		#prep args to send for printing
 		move $a0, $t8
 		move $a1, $t7
 		jal print_array
+		
+		
+		
+		sll $s0, $t0, 2  #finds the location of arr[i] via i *4 so if i is 4 --> 4*4 will tell us how far to move the ptr
+		addu $t6, $t8, $s0  # puts the pointer at the location of the i, so $t6 now has arr[i]
+		
+		lw $s1, 0($t6)  #since $t6 has the pointer to arr[i], load value into $s1
+		lw $s2, 4($t6)  # since 4($t6) gives us the next element in the array, this is arr[i+1]
+		
+		# if arr[i] is greater than arr[i+1] set $s3 = 1, otherwise $s3 = 0 which will prompt swap in next line
+		sgt $s3, $s1, $s2  #if arr[i] is not greater than arr[i+1], $s3 = 0, which prompts to jump to dont swap
+		
+		beq $s3, $zero, dont_swap  #we need to jump to dont swap to skip over the swap
+		
+		sw $s2, 0($t6)  #0($t6) is arr[i], as of right now $s2 has arr[i+1], so here we are storing arr[i+1] into arr[i]
+		sw $s1, 4($t6)  #4($t6) is arr[i+1] as of right now $s1 has arr[i], so here we are storing arr[i] into arr[i+1]
+		
+		
+		dont_swap:
+		
 		addi $t0, $t0, 1 #increment i 
 		
-		#compare the elements of the array j and j+1
-		#if element at j > j+ 1 swap elements
-		
-		
+	
 		j bubble_sort_inner_loop
 		
 		
